@@ -1,12 +1,56 @@
 const User = require("../models/UserModels");
-
-
 const bcrypt = require("bcrypt");
-
-
 const jwt = require("jsonwebtoken");
 
 const signToken = (id) => {
-  return jwt.sign({ id }, process.env.SECRET_STR);
+    return jwt.sign({ id }, process.env.SECRETKEY);
 };
 
+exports.CreatUser = async (req, res) => {
+    const { FullName, Email, Password, Phone, Img } = req.body
+    try {
+
+        const UserExist = await User.findOne({ Email }).catch((err) => {
+            console.log("Error: ", err)
+        })
+
+        if (UserExist) {
+            return res.status(409).json({ message: "User already Exist" })
+        }
+        else {
+            const PasswordHash = bcrypt.hashSync(Password, 12)
+            const UserCreate = await User.create({
+                FullName,
+                Email,
+                Password: PasswordHash,
+                Phone,
+                Img
+            })
+
+
+
+
+            const UserToken = signToken(UserCreate._id)
+            res.status(201).json({
+                message: "Successful Create User",
+                UserToken,
+                data: {
+                    FullName: UserCreate.FullName,
+                    Email: UserCreate.Email,
+                    Password: UserCreate.Password,
+                    Phone: UserCreate.Phone,
+                    Img: UserCreate.Img
+
+                }
+            })
+        }
+
+
+    } catch (error) {
+        res.status(500).json({ error: "Cannot register the user" });
+    }
+}
+
+exports.GetUser = async (req, res) => {
+
+}
