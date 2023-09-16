@@ -3,6 +3,7 @@ const dotnev = require("dotenv");
 const mongoose = require("mongoose");
 const UserRoute = require("./routes/UserRouter")
 const AdminRoute = require("./routes/AdminRouter")
+// const ItemRoute = require("./routes/ItemRouter")
 
 dotnev.config({ path: './conf.env' })
 
@@ -20,6 +21,7 @@ mongoose.connect(process.env.CONSTR, {
 
 app.use('/user', UserRoute)
 app.use('/admin', AdminRoute)
+
 
 app.listen(8080, () => {
     console.log("connect port 8080")
