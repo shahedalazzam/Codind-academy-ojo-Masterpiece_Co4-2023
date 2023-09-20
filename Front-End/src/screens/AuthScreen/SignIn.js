@@ -4,6 +4,10 @@ import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 
 function SignIn({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const values = {
+    Email:email,
+    Password:password
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -115,10 +119,10 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
   },
-  linkText: { 
+  linkText: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#153E5C',
+    color: 'blue',
   },
 });
 

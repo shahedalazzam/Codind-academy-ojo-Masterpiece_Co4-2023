@@ -9,7 +9,7 @@ function LandingScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <StatusBar
-                backgroundColor="#153E5C"
+                backgroundColor="#FDBFC3"
                 barStyle="light-content"
                 hidden={false}
                 translucent={false}

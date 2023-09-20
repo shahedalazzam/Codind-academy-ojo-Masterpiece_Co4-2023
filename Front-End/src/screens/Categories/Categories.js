@@ -37,7 +37,6 @@ const Categories = ({ navigation }) => {
                         </View></TouchableOpacity>
                 )}
                 showsHorizontalScrollIndicator={false}
-
             />
         </View>
     );

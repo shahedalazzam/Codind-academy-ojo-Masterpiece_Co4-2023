@@ -7,7 +7,8 @@ const signToken = (id) => {
 };
 
 exports.CreatUser = async (req, res) => {
-    const { FullName, Email, Password, Phone, Img } = req.body
+    const { FirstName,LastName, Email, Password, Phone, Img } = req.body
+    const FullName=`${FirstName} ${LastName}`
     try {
 
         const UserExist = await User.findOne({ Email }).catch((err) => {
