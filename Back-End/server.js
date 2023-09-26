@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const UserRoute = require("./routes/UserRouter")
 const AdminRoute = require("./routes/AdminRouter")
 // const ItemRoute = require("./routes/ItemRouter")
-
+const cors = require('cors')
 dotnev.config({ path: './conf.env' })
 
 const app = express()
-
+app.use(cors())
 app.use(express.json())
 
 mongoose.connect(process.env.CONSTR, {

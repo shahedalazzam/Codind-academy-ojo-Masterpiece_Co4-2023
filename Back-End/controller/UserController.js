@@ -7,7 +7,7 @@ const signToken = (id) => {
 };
 
 exports.CreatUser = async (req, res) => {
-    const { FirstName,LastName, Email, Password, Phone, Img ,Role} = req.body
+    const { FirstName,LastName, Email, Password, Phone, Img } = req.body
     const FullName=`${FirstName} ${LastName}`
     try {
 
@@ -21,7 +21,7 @@ exports.CreatUser = async (req, res) => {
         else {
             const PasswordHash = bcrypt.hashSync(Password, 12)
             const UserCreate = await User.create({
-                Role,
+                Role:"user",
                 FullName,
                 Email,
                 Password: PasswordHash,

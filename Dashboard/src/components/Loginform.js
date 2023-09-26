@@ -15,54 +15,27 @@ const Loginform = (props) => {
     const [username, setUsername] = useState('')
     let navigate = useNavigate();
     const onSubmit = async (values) => {
-        const response = await axios.post('', values).catch((err) => {
-            if (err && err.response) {
-                console.log("Error: ", err.response.data.message)///////////////////
-                setError(err.response.data.message)
+
+        try {
+            const response = await axios.post(
+                "https://dream-wedding.onrender.com/admin/login",
+                values
+            );
+
+            if (response && response.data) {
+                localStorage.setItem("username", response.data.data.fullname);
+                if (response.data.data.role === "admin") {
+                    navigate("/dashboard");
+                } else {
+                    setError("Please login with Admin Email.");
+                }
             }
-        })
-        // if (response && response.data) {
-        //     setUserId(response.data.userId)
-
-        //     // console.log(typeof(response.data.userId))
-        //     setError(null)
-        //     navigate('/profile', { state: { id: response.data.userId } }); //redirect to the profile page
-        //     formik.resetForm()
-        // }
-
-        if (response && response.data) {
-            // console.log(response.data.userRole)
-            if (response.data.userRole === "admin" || response.data.userRole === "super admin") {
-                // console.log("frst", response.data.username)
-                // setUsername(response.data.username)
-                localStorage.setItem('username', response.data.username)
-                localStorage.setItem('role', response.data.userRole)
-                sessionStorage.setItem('token', response.data.token)
-                localStorage.setItem('id', response.data.userId)
-                // localStorage.setItem('id', response.data.userId)
-                // navigate('/dashboard', {
-                //     state: {
-                //         id: response.data.userId,
-                //         username: response.data.username,
-                //         role: response.data.userRole,
-                //     }
-                // });
-
-                navigate('/dashboard');
-
+        } catch (error) {
+            if (error.response) {
+                setError(error.response.data.message); // Display the error message from the server
+            } else {
+                setError("Network error. Please check your internet connection.");
             }
-            else {
-                // console.log(response.data)
-                // setUserId(response.data.userId)
-             
-                sessionStorage.setItem('token', response.data.token)
-                localStorage.setItem('id', response.data.userId)
-                navigate('/profile'); //redirect to the profile page
-            }
-            // console.log(typeof (response.data.userId))
-            setError(null)
-
-            formik.resetForm()
         }
     }
 
@@ -71,12 +44,12 @@ const Loginform = (props) => {
 
     // const PASS_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
     const validationSchema = yup.object({
-        email: yup.string().required("Email is required"),
-        password: yup.string().required("Password is required"),
+        Email: yup.string().required("Email is required"),
+        Password: yup.string().required("Password is required"),
     })
 
     const formik = useFormik({
-        initialValues: { email: '', password: '' },
+        initialValues: { Email: '', Password: '' },
         validateOnBlur: true,
         onSubmit,
         validationSchema: validationSchema
@@ -116,20 +89,20 @@ const Loginform = (props) => {
                                     <input onBlur={formik.handleBlur} onChange={(event) => {
                                         formik.handleChange(event);
                                         handleInputChange(event);
-                                    }} value={formik.values.email} className="form-control" type="email" name="email" placeholder="E-mail Address" required />
-                                    <span className={formik.touched.email && formik.errors.email ? "invalid-feedback" : "valid-feedback"}>{formik.touched.email && formik.errors.email ? formik.errors.email : ""}</span>
+                                    }} value={formik.values.Email} className="form-control" type="email" name="Email" placeholder="E-mail Address" required />
+                                    <span className={formik.touched.Email && formik.errors.Email ? "invalid-feedback" : "valid-feedback"}>{formik.touched.Email && formik.errors.Email ? formik.errors.Email : ""}</span>
                                 </div>
                                 <div className="col-md-12">
                                     <input onBlur={formik.handleBlur} onChange={(event) => {
                                         formik.handleChange(event);
                                         handleInputChange(event);
-                                    }} value={formik.values.password} className="form-control" type="password" name="password" placeholder="Password" required />
-                                    <span className={formik.touched.password && formik.errors.password ? "invalid-feedback" : "valid-feedback"}>{formik.touched.password && formik.errors.password ? formik.errors.password : ""}</span>
+                                    }} value={formik.values.Password} className="form-control" type="password" name="Password" placeholder="Password" required />
+                                    <span className={formik.touched.Password && formik.errors.Password ? "invalid-feedback" : "valid-feedback"}>{formik.touched.Password && formik.errors.Password ? formik.errors.Password : ""}</span>
                                 </div>
                                 <div className="form-button mt-3 d-flex justify-content-between">
                                     <button
                                         id="submit" type="submit" className="btn">Get In</button>
-                                    <p>New here? Let's get you <Link className='login_link' to={'/'}>registered!</Link></p>
+                                    {/* <p>New here? Let's get you <Link className='login_link' to={'/'}>registered!</Link></p> */}
                                 </div>
                             </form>
                         </div>
