@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import axios from 'axios';
+
+
 
 function SignIn({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const values = {
-    Email:email,
-    Password:password
-  }
 
+  const handleSubmit = async () => {
+    const values = {
+      Email: email,
+      Password: password
+    }
+    await axios.post("https://dream-wedding.onrender.com/user/sign-in", values).then((response) => {
+      console.log(response.data)
+      // navigation.navigate('HomeScreen')
+    })
+      .catch((erorr) => {
+        console.log(erorr.response.data)
+      })
+    // Handle form submission here
+    // console.log(values);
+
+  };
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.text1}>Sign in to continue</Text>
@@ -30,7 +45,7 @@ function SignIn({ navigation }) {
         secureTextEntry={true}
       />
       <Text style={styles.text4}>Forget Password?</Text>
-      <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+      <TouchableOpacity onPress={handleSubmit}>
         <Text style={styles.btn}>Sign in</Text>
       </TouchableOpacity>
 
