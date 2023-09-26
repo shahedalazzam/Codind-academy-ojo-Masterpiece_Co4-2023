@@ -104,6 +104,40 @@ exports.UpdateUsers = async (req, res) => {
 
 }
 
+exports.GetUser = async (req, res) => {
+    const { Email, Password } = req.body
+    try {
+
+        const UserExist = await User.findOne({ Email }).catch((err) => {
+            console.log("Error: ", err)
+        })
+
+        if (UserExist) {
+            const isMatch = await UserExist.comparePass(Password, UserExist.Password)
+
+            if (isMatch) {
+                const UserToken = signToken(UserExist._id)
+                return res.status(200).json({
+                    data: {
+                        id: UserExist._id,
+                        FullName: UserExist.FullName,
+                    },
+                    message: "login successful",
+                    UserToken
+                })
+            }
+        }
+        else {
+            return res.status(404).json({ message: "User does not exists" })
+
+
+        }
+
+    } catch (error) {
+        res.status(500).json({ error: "Cannot Login the user" });
+    }
+}
+
 
 // exports.Name = async (req, res) => {
 //     const { FullName} = req.body

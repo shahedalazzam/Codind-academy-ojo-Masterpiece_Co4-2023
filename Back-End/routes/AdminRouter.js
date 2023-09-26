@@ -4,6 +4,7 @@ const router = express.Router()
 
 
 router.route("/add").post(AdminController.CreatUser)
+router.route("/login").post(AdminController.GetUser)
 router.route("/delete/:id").delete(AdminController.DelUser)
 router.route("/update/:id").patch(AdminController.UpdateUsers)
 router.route("/").get(AdminController.GetAllUsers)
