@@ -20,6 +20,7 @@ exports.CreatUser = async (req, res) => {
         else {
             const PasswordHash = bcrypt.hashSync(Password, 12)
             const UserCreate = await User.create({
+                Role: "user",
                 FullName,
                 Email,
                 Password: PasswordHash,
