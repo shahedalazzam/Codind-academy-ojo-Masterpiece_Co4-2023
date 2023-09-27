@@ -23,8 +23,9 @@ const Loginform = (props) => {
             );
 
             if (response && response.data) {
-                localStorage.setItem("username", response.data.data.fullname);
-                if (response.data.data.role === "admin") {
+                console.log(response.data.data)
+                localStorage.setItem("username", response.data.data.Fullname);
+                if (response.data.data.Role === "admin") {
                     navigate("/dashboard");
                 } else {
                     setError("Please login with Admin Email.");

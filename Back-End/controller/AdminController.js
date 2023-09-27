@@ -122,6 +122,7 @@ exports.GetUser = async (req, res) => {
                     data: {
                         id: UserExist._id,
                         FullName: UserExist.FullName,
+                        Role: UserExist.Role
                     },
                     message: "login successful",
                     UserToken
