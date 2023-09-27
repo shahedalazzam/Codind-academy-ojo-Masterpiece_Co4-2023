@@ -54,7 +54,7 @@ exports.CreatUser = async (req, res) => {
 
 exports.GetAllUsers = async (req, res) => {
     try {
-        const Users = await User.find();
+        const Users = await User.find({Role:"user"});
         res.status(200).json({
             data: {
                 Users

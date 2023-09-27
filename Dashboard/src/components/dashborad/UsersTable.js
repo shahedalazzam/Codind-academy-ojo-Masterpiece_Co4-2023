@@ -13,16 +13,8 @@ const UsersTable = (props) => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.post(
-          'http://localhost:8080/dashboard',
-          {
-            role: role,
-          },
-          {
-            headers: {
-              Authorization: `bearer ${token}`,
-            },
-          }
+        const response = await axios.get(
+          'https://dream-wedding.onrender.com/admin/'
         ).catch((err) => {
           if (err && err.response) {
             console.log("first")
@@ -31,7 +23,7 @@ const UsersTable = (props) => {
         });
 
         if (response && response.data) {
-          setUsers(response.data.data.users);
+          setUsers(response.data.data.Users);
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -47,11 +39,30 @@ const UsersTable = (props) => {
 
   let navigate = useNavigate();
 
-  const handleUsernameEdit = async (userId, newUsername) => {
+  const handleUsernameEdit = async (userId, newFullName) => {
     try {
-      await axios.patch(`http://localhost:8080/dashboard/editUser`, {
-        username: newUsername,
-        id: userId,
+      await axios.patch(`https://dream-wedding.onrender.com/admin/update/${userId}`, {
+        FullName: newFullName,
+
+      });
+    } catch (error) {
+      console.error('Error updating username:', error);
+    }
+  };
+
+  const handleUserEmailEdit = async (userId, newEmail) => {
+    try {
+      await axios.patch(`https://dream-wedding.onrender.com/admin/update/${userId}`, {
+        Email: newEmail,
+      });
+    } catch (error) {
+      console.error('Error updating username:', error);
+    }
+  };
+  const handleUserPhoneEdit = async (userId, newPhone) => {
+    try {
+      await axios.patch(`https://dream-wedding.onrender.com/admin/update/${userId}`, {
+        Phone: newPhone,
       });
     } catch (error) {
       console.error('Error updating username:', error);
@@ -74,10 +85,9 @@ const UsersTable = (props) => {
                       <thead>
                         <tr>
                           <th>ID</th>
-                          <th>Username</th>
+                          <th>FullName</th>
                           <th>Email</th>
-                          <th>Role</th>
-                          <th>Password</th>
+                          <th>Phone</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -85,13 +95,12 @@ const UsersTable = (props) => {
                           return (
                             <tr key={index}>
                               <td>{user._id}</td>
-                              <td contentEditable={true} onBlur={(e) => handleUsernameEdit(user._id, e.target.innerText)} >{user.username}</td>
-                              <td>{user.email}</td>
-                              <td>{user.role}</td>
-                              <td>{user.password}</td>
-                              {role === 'super admin' ? <td>
+                              <td contentEditable={true} onBlur={(e) => handleUsernameEdit(user._id, e.target.innerText)} >{user.FullName}</td>
+                              <td contentEditable={true} onBlur={(e) => handleUserEmailEdit(user._id, e.target.innerText)} >{user.Email}</td>
+                              <td contentEditable={true} onBlur={(e) => handleUserPhoneEdit(user._id, e.target.innerText)} >{user.Phone}</td>
+                              <td>
                                 <DeleteBtn id={user._id} onDelete={handleUserDelete} />
-                              </td> : null}
+                              </td>
                             </tr>
                           );
                         })}

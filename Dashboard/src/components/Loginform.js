@@ -24,7 +24,7 @@ const Loginform = (props) => {
 
             if (response && response.data) {
                 console.log(response.data.data)
-                localStorage.setItem("username", response.data.data.Fullname);
+                localStorage.setItem("username", response.data.data.FullName);
                 if (response.data.data.Role === "admin") {
                     navigate("/dashboard");
                 } else {
