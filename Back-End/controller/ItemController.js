@@ -137,7 +137,7 @@ exports.CreatOrder = async (req, res) => {
 exports.GetAllOrders = async (req, res) => {
     try {
         const Orders = await Order.find();
-        console.log("Orders ",Orders)
+        console.log("Orders ",Orders.User)
         const user=await User.find({_id:Orders.User})
         console.log("user " , user)
         const ItemsId = Orders.Items.map((item)=>{
