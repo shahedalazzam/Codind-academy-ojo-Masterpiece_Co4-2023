@@ -7,7 +7,7 @@ const router = express.Router()
 router.route("/sign-up").post(UserController.CreatUser)
 router.route("/sign-in").post(UserController.GetUser)
 router.route("/order/create").post(ItemController.CreatOrder)
-router.route("/order").post(ItemController.GetAllOrders)
+router.route("/order").get(ItemController.GetAllOrders)
 
 
 

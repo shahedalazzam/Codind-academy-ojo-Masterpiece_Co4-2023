@@ -19,8 +19,8 @@ const AddItem = () => {
     let navigate = useNavigate();
 
     const onSubmit = async (values) => {
-        const { confirm_password, ...data } = values //destructure the values to exclude confirm_password , we dont need to send it to the API
-        const response = await axios.post('https://dream-wedding.onrender.com/admin/add', data).catch((err) => {
+        console.log("object")
+        const response = await axios.post('https://dream-wedding.onrender.com/admin/item/add', values).catch((err) => {
             if (err && err.response) {
                 // console.log("Error: ", err.response.data.message)
                 setError(err.response.data.message)
@@ -33,7 +33,7 @@ const AddItem = () => {
             // localStorage.setItem('token', JSON.stringify(response.data.token));   //store the token in local session 
             // setError(null)
             // setSuccess(response.data.message)
-            navigate('/dashboard/additem'); //redirect to the profile page
+            navigate('/dashboard/items'); //redirect to the profile page
             formik.resetForm()
         }
     }
@@ -78,13 +78,7 @@ const AddItem = () => {
                                         }} value={formik.values.Price} className="form-control" type="text" name="Price" placeholder="Price" required />
                                         <span className={formik.touched.Price && formik.errors.Price ? "invalid-feedback" : "valid-feedback"}>{formik.touched.Price && formik.errors.Price ? formik.errors.Price : ""}</span>
                                     </div>
-                                    <div className="col-md-12">
-                                        <input onBlur={formik.handleBlur} onChange={(event) => {
-                                            formik.handleChange(event);
-                                            handleInputChange(event);
-                                        }} value={formik.values.Color} className="form-control" type="color" name="Color" />
-                                        <span className={formik.touched.Color && formik.errors.Color ? "invalid-feedback" : "valid-feedback"}>{formik.touched.Color && formik.errors.Color ? formik.errors.Color : ""}</span>
-                                    </div>
+
                                     <div className="col-md-12">
                                         <input onBlur={formik.handleBlur} onChange={(event) => {
                                             formik.handleChange(event);
