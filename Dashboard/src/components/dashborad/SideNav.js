@@ -21,10 +21,32 @@ const SideNav = () => {
                         <span>Users</span></Link>
                 </li>
                 <li className="nav-item">
+                    <Link className="nav-link" to="/dashboard/items">
+                        <i className="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Items</span></Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/dashboard/odres">
+                        <i className="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Orders</span></Link>
+                </li>
+                <li className="nav-item">
                     <Link className="nav-link" to="/dashboard/adduser">
                         <i className="fas fa-fw fa-tachometer-alt"></i>
                         <span>Add Users</span></Link>
                 </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/dashboard/additem">
+                        <i className="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Add Items</span></Link>
+                </li>
+                <li className="nav-item">
+                    <Link className="nav-link" to="/dashboard/addorder">
+                        <i className="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Add Orders</span></Link>
+                </li>
+
+
             </ul>
         </>
     )

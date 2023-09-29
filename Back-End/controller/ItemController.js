@@ -1,4 +1,5 @@
 const { Order, Item } = require("../models/ItemsModels");
+const User = require("../models/UserModels");
 
 exports.CreatItem = async (req, res) => {
     const { Name, Price, Color, Img, Brand, Size } = req.body
@@ -126,9 +127,30 @@ exports.CreatOrder = async (req, res) => {
                 TotalPrice: OrderCreate.TotalPrice,
             }
         })
-        
+
     } catch (error) {
         res.status(500).json({ error: "Cannot Create Order" });
 
+    }
+}
+
+exports.GetAllOrders = async (req, res) => {
+    try {
+        const Orders = await Order.find();
+        const user=await User.find({_id:Orders.User})
+        const ItemsId = Orders.Items.map((item)=>{
+            item.Item
+        })
+        const OrderItems = await Item.find({_id:{$in:ItemsId}})
+        res.status(200).json({
+            data: {
+                Orders,
+                user,
+                OrderItems
+            },
+        })
+
+    } catch (error) {
+        res.status(500).json({ error: "Cannot find the order" });
     }
 }

@@ -106,12 +106,6 @@ const AddUser = () => {
           </div>
         </div>
       </div>
-
-
-
-
-
-
     </div>
   )
 }

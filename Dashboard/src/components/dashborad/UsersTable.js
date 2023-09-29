@@ -99,7 +99,10 @@ const UsersTable = (props) => {
                               <td contentEditable={true} onBlur={(e) => handleUserEmailEdit(user._id, e.target.innerText)} >{user.Email}</td>
                               <td contentEditable={true} onBlur={(e) => handleUserPhoneEdit(user._id, e.target.innerText)} >{user.Phone}</td>
                               <td>
-                                <DeleteBtn id={user._id} onDelete={handleUserDelete} />
+                                <DeleteBtn id={user._id} onDelete={handleUserDelete} 
+                                
+                                />
+                                
                               </td>
                             </tr>
                           );
