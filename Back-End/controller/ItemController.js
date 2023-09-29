@@ -1,5 +1,5 @@
 const { Order, Item } = require("../models/ItemsModels");
-const User = require("../models/UserModels");
+const UserModel = require("../models/UserModels");
 
 exports.CreatItem = async (req, res) => {
     const { Name, Price, Color, Img, Brand, Size } = req.body
@@ -138,7 +138,7 @@ exports.GetAllOrders = async (req, res) => {
     try {
         const Orders = await Order.find();
         console.log("Orders ",Orders.User)
-        const user=await User.find({_id:Orders.User})
+        const user=await UserModel.find({_id:Orders.User})
         console.log("user " , user)
         const ItemsId = Orders.Items.map((item)=>{
             item.Item
