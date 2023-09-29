@@ -137,25 +137,30 @@ exports.CreatOrder = async (req, res) => {
 exports.GetAllOrders = async (req, res) => {
     try {
         const Orders = await Order.find();
-        console.log("Orders ",Orders.User)
-        const user=await UserModel.find({_id:Orders.User})
-        console.log("user " , user)
-        const ItemsId = Orders.Items.map((item)=>{
-            item.Item
-        })
-        console.log("ItemsId ",ItemsId)
-        const OrderItems = await Item.find({_id:{$in:ItemsId}})
-        console.log("OrderItems ",OrderItems)
+
+        // Create an array to store user information for each order
+        const users = [];
+
+        // Loop through each order to retrieve user information
+        for (const order of Orders) {
+            const user = await UserModel.findById(order.User);
+            users.push(user);
+        }
+
+        const ItemsId = Orders.map((order) => {
+            return order.Items.map((item) => item.Item);
+        }).flat();
+
+        const OrderItems = await Item.find({ _id: { $in: ItemsId } });
+
         res.status(200).json({
             data: {
                 Orders,
-                user,
-                OrderItems
+                users,
+                OrderItems,
             },
-        })
-
-
+        });
     } catch (error) {
         res.status(500).json({ error: "Cannot find the order" });
     }
-}
+};
