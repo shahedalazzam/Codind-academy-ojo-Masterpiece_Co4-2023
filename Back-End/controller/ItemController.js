@@ -137,11 +137,15 @@ exports.CreatOrder = async (req, res) => {
 exports.GetAllOrders = async (req, res) => {
     try {
         const Orders = await Order.find();
+        console.log("Orders ",Orders)
         const user=await User.find({_id:Orders.User})
+        console.log("user " , user)
         const ItemsId = Orders.Items.map((item)=>{
             item.Item
         })
+        console.log("ItemsId ",ItemsId)
         const OrderItems = await Item.find({_id:{$in:ItemsId}})
+        console.log("OrderItems ",OrderItems)
         res.status(200).json({
             data: {
                 Orders,
@@ -149,6 +153,7 @@ exports.GetAllOrders = async (req, res) => {
                 OrderItems
             },
         })
+
 
     } catch (error) {
         res.status(500).json({ error: "Cannot find the order" });
