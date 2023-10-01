@@ -34,12 +34,11 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView style={styles.container}>
          <SafeAreaView >
             <View style={styles.wrap}>
-               <Text style={styles.text1}>Hi Shahed</Text><View style={{ flexDirection: 'row', gap: 120 }}>
+               <Text style={styles.text1}>Hi Shahed</Text>
+               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                   <Text style={styles.text2}>Inspiration For Your Wedding</Text>
 
-
-
-                  <View style={{ flexDirection: "row", }}>
+                  <View style={{ flexDirection: "row", marginRight: 20 }}>
                      {/* Account Button */}
                      <TouchableOpacity>
                         <MaterialCommunityIcons
@@ -68,19 +67,17 @@ const HomeScreen = ({ navigation }) => {
                         />
                      </TouchableOpacity>
                   </View>
-
-
                </View>
 
                <View style={styles.SearchBar}>
-                  <TextInput
-                     placeholder="Search ..." />
+                  <TextInput placeholder="Search ..." />
                   <TouchableOpacity
                      style={{ flex: 0 }}
                      onPress={() => navigation.navigate("DiscoverScreen")}>
                      <Feather name="search" size={24} color="grey" />
                   </TouchableOpacity>
                </View>
+
 
                <View style={styles.bestSellersContainer}>
                   <Text style={styles.CategoriesText}>Categories</Text>
@@ -90,8 +87,7 @@ const HomeScreen = ({ navigation }) => {
                      renderItem={({ item }) => (
                         <TouchableOpacity
                            style={styles.buttonContainer}
-                           onPress={() => navigation.navigate("Categories")}
-                        >
+                           onPress={() => navigation.navigate("Categories")}>
                            <View style={styles.cont}>
                               <Image
                                  resizeMode="stretch"
@@ -107,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
                   />
                </View>
 
-               <Text style={styles.RecomendedText}>Recomended For you</Text>
+               <Text style={styles.CategoriesText}>Recomended For you</Text>
                <View style={styles.sliders}>
 
                   <ScrollView
@@ -131,8 +127,7 @@ const HomeScreen = ({ navigation }) => {
                      {images.map((_, index) => (
                         <Text
                            key={index}
-                           style={imgActive === index ? styles.dotActive : styles.dot}
-                        >
+                           style={imgActive === index ? styles.dotActive : styles.dot}>
                            ●
                         </Text>
                      ))}
@@ -141,7 +136,7 @@ const HomeScreen = ({ navigation }) => {
 
                <View>
                   <View style={styles.bestSellersContainer}>
-                     <Text style={styles.trending}>Trending</Text>
+                     <Text style={styles.CategoriesText}>Trending</Text>
                      <FlatList
                         data={products}
                         keyExtractor={(item) => item.id.toString()}
@@ -156,13 +151,11 @@ const HomeScreen = ({ navigation }) => {
                                     style={styles.productImage}
                                     source={item.image}
                                  />
-                                 <Text style={styles.productName}></Text>
                               </View>
                            </TouchableOpacity>
                         )}
                         horizontal
-                        showsHorizontalScrollIndicator={false}
-                     />
+                        showsHorizontalScrollIndicator={false} />
                   </View>
                </View>
             </View>
@@ -175,17 +168,11 @@ const styles = StyleSheet.create({
    container: {
       backgroundColor: '#fff',
       flex: 1,
-   },
-
-   iconButton: {
-      marginRight: '100',
-
-   },
-
+   }
+   ,
    sliders: {
-      margin: 10,
       borderRadius: 15,
-      height: 200,
+      height: 220,
       backgroundColor: '#fff4f3',
    },
    slidertext: {
@@ -199,6 +186,7 @@ const styles = StyleSheet.create({
       fontWeight: '700',
    },
    text2: {
+      fontSize: 10,
       color: '#153E5C',
       marginLeft: 15,
       marginTop: 5,
@@ -207,7 +195,7 @@ const styles = StyleSheet.create({
    CategoriesText: {
       fontWeight: '700',
       color: '#153E5C',
-      fontSize: 20,
+      fontSize: 15,
       marginBottom: 10,
       marginLeft: 15,
    },
@@ -248,11 +236,11 @@ const styles = StyleSheet.create({
    },
    cont: {
       marginBottom: 20,
-      alignItems: 'center',
       justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: '#fff4f3',
       width: 100,
-      height: 120,
+      height: 125,
       borderRadius: 15,
       margin: 10,
       borderColor: "#20232a",
@@ -269,24 +257,12 @@ const styles = StyleSheet.create({
    },
    productName: {
       fontWeight: '600',
-      fontSize: 16,
+      fontSize: 11,
       color: '#153E5C',
       textAlign: 'center',
    },
-   RecomendedText: {
-      fontWeight: '700',
-      color: '#153E5C',
-      fontSize: 20,
-      marginBottom: 10,
-      marginLeft: 15,
-   },
-   trending: {
-      fontWeight: '700',
-      color: '#153E5C',
-      fontSize: 20,
-      marginBottom: 10,
-      marginLeft: 15,
-   }
+
+
 });
 
 export default HomeScreen;

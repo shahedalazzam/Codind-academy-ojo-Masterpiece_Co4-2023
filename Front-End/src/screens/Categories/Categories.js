@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react
 
 
 const products = [
-    { id: 1, Price: '20$', name: 'Cermony', image: require("../../screens/Home/cermony.png") },
-    { id: 2, Price: '20$', name: 'Attires & Accessories', image: require("../../screens/Home/attires.png") },
+    { id: 1, Price: '20$', name: 'Blue dress', image: require("../Details/img/dress1.png") },
+    { id: 2, Price: '20$', name: 'White dress', image: require("../Details/img/dress2.png") },
     { id: 3, Price: '20$', name: 'Invitations', image: require("../../screens/Home/invitation.png") },
     { id: 4, Price: '20$', name: 'Make Up', image: require("../../screens/Home/mackup.png") },
     { id: 5, Price: '20$', name: 'Cermony', image: require("../../screens/Home/cermony.png") },
@@ -25,7 +25,7 @@ const Categories = ({ navigation }) => {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={styles.buttonContainer}
-                        onPress={() => navigation.navigate("Categories")}
+                        onPress={() => navigation.navigate("Details")}
                     >
                         <View style={styles.cont}>
                             <Image
@@ -33,6 +33,7 @@ const Categories = ({ navigation }) => {
                                 style={styles.productImage}
                                 source={item.image}
                             />
+                            <Text style={styles.productName}>{item.name}</Text>
                             <Text style={styles.productName}>{item.Price}</Text>
                         </View></TouchableOpacity>
                 )}
@@ -43,8 +44,8 @@ const Categories = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:'#fff'
+    container: {
+        backgroundColor: '#fff'
     },
     productImage: {
         margin: 5,
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
         height: 150,
     },
     cont: {
-        elevation:3,
+        elevation: 3,
         marginBottom: 20,
         alignItems: 'center',
         justifyContent: 'center',
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     },
     productName: {
         fontWeight: '600',
-        fontSize: 16,
+        fontSize: 11,
         color: '#153E5C',
         textAlign: 'center',
     },

@@ -7,6 +7,7 @@ import SignUp from './src/screens/AuthScreen/SignUp';
 import HomeScreen from './src/screens/Home/HomeScreen';
 import Cart from './src/screens/Cart/Cart';
 import Categories from './src/screens/Categories/Categories';
+import Details from './src/screens/Details/Details';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShadowVisible: false, headerShown: false }} />
         <Stack.Screen name="Cart" component={Cart} options={{ headerShadowVisible: false, headerShown: false }} />
         <Stack.Screen name="Categories" component={Categories} options={{ headerShadowVisible: false, headerShown: true }} />
+        <Stack.Screen name="Details" component={Details} options={{ headerShadowVisible: false, headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

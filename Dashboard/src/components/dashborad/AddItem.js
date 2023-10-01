@@ -83,10 +83,24 @@ const AddItem = () => {
                                         <input onBlur={formik.handleBlur} onChange={(event) => {
                                             formik.handleChange(event);
                                             handleInputChange(event);
+                                        }} value={formik.values.Color} className="form-control" type="color" name="Color"  required />
+                                        <span className={formik.touched.Color && formik.errors.Color ? "invalid-feedback" : "valid-feedback"}>{formik.touched.Color && formik.errors.Color ? formik.errors.Color : ""}</span>
+                                    </div>
+
+                                    <div className="col-md-12">
+                                        <input onBlur={formik.handleBlur} onChange={(event) => {
+                                            formik.handleChange(event);
+                                            handleInputChange(event);
                                         }} value={formik.values.Brand} className="form-control" type="text" name="Brand" placeholder="Brand" required />
                                         <span className={formik.touched.Brand && formik.errors.Brand ? "invalid-feedback" : "valid-feedback"}>{formik.touched.Brand && formik.errors.Brand ? formik.errors.Brand : ""}</span>
                                     </div>
-
+                                    <div className="col-md-12">
+                                        <input onBlur={formik.handleBlur} onChange={(event) => {
+                                            formik.handleChange(event);
+                                            handleInputChange(event);
+                                        }} value={formik.values.Size} className="form-control" type="text" name="Size" placeholder="Size" required />
+                                        <span className={formik.touched.Size && formik.errors.Size ? "invalid-feedback" : "valid-feedback"}>{formik.touched.Size && formik.errors.Size ? formik.errors.Size : ""}</span>
+                                    </div>
                                     <div className="form-button mt-3 d-flex justify-content-between">
                                         <button id="submit" type="submit" className="btn ">Add</button>
                                     </div>

@@ -19,7 +19,7 @@ const OrdersTable = (props) => {
                     param2: 'value2'
                 };
 
-                const response = await axios.post('https://dream-wedding.onrender.com/user/order/create', requestData);
+                const response = await axios.get('https://dream-wedding.onrender.com/user/order', requestData);
 
                 if (response && response.data && response.data.data && response.data.data.Orders) {
                     setOrders(response.data.data.Orders);
@@ -63,9 +63,9 @@ const OrdersTable = (props) => {
                                             <thead>
                                                 <tr>
                                                     <th>ID</th>
-                                                    <th>User</th>
-                                                    <th>Items</th>
-                                                    <th>TotalPrice</th>
+                                                    <th>Orders</th>
+                                                    <th>Users</th>
+                                                    <th>OrderItems</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -73,8 +73,7 @@ const OrdersTable = (props) => {
                                                     return (
                                                         <tr key={index}>
                                                             <td>{order._id}</td>
-                                                            <td>{order.user} {/* Replace with actual user information */}</td>
-                                                            <td>{/* Render order items here */}</td>
+                                                            <td>{order.user}</td>
                                                             <td>{order.totalPrice}</td>
                                                             <td>
                                                                 <DeleteBtn id={order._id} onDelete={handleOrderDelete} />

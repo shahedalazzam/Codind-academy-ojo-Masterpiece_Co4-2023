@@ -15,7 +15,7 @@ function SignIn({ navigation }) {
     }
     await axios.post("https://dream-wedding.onrender.com/user/sign-in", values).then((response) => {
       console.log(response.data)
-      // navigation.navigate('HomeScreen')
+      navigation.navigate('HomeScreen')
     })
       .catch((erorr) => {
         console.log(erorr.response.data)
