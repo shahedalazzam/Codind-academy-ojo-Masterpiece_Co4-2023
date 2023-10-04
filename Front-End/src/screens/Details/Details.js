@@ -1,64 +1,85 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import axios from 'axios';
 
-const Stack = createStackNavigator();
 const products = [
-    { id: 1, Price: '30$', name: 'Cermony', image: require("./img/dress1.png") },
+    { id: 1, Price: '30$', name: 'Ceremony', image: require("./img/dress1.png") },
 ];
-// Define your ProductDetails component here
 
-function Details({ navigation }) {
+function Details({ navigation, route }) {
+    const { itemId } = route.params
+    const [cartItems, setCartItems] = useState([]);
+
+    const addToCartAndNavigate = (item) => {
+        setCartItems([...cartItems, item]);
+        navigation.navigate('Cart', { cartItems: [...cartItems, item] });
+    };
+    const [item, setItems] = useState("");
+    useEffect(() => {
+        console.log(itemId)
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(
+                    `https://dream-wedding.onrender.com/user/item/${itemId}`
+                ).catch((err) => {
+                    if (err && err.response) {
+                        console.log("first")
+                        console.log('Error: ', err.response.data.error);
+                    }
+                });
+
+                if (response && response.data) {
+                    console.log(response.data.data)
+                    setItems(response.data.data.item);
+                }
+            } catch (error) {
+                console.error('Error fetching item data:', error);
+            }
+        };
+        fetchUserData();
+    }, []);
     return (
         <View style={styles.container}>
-            <View style={styles.flat} >
-                <FlatList
-                    numColumns={2}
-                    data={products}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <View style={styles.flat} >
+            <View style={styles.flat}>
 
-                            <View style={styles.cont}>
-                                <Image
-                                    resizeMode="stretch"
-                                    style={styles.productImage}
-                                    source={item.image}
-                                />
-                            </View>
-                            <View>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
-                                    <Text>Name:</Text>
-                                    <Text>{item.name}</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
-                                    <Text style={styles.label}>Price:</Text>
-                                    <Text style={styles.price}>{item.Price}</Text>
-                                </View>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
-                                    <Text style={styles.label}>Price:</Text>
-                                    <Text style={styles.price}>{item.Price}</Text>
-                                </View>
-                            </View>
+                {/* <FlatList */}
+                {/* // numColumns={1}
+                    // data={items.filter(items.id)} */}
+                {/* renderItem={({ item }) => ( */}
+                <View style={styles.flat}>
+                    <View style={styles.cont}>
+                        <Image
+                            resizeMode="stretch"
+                            style={styles.productImage}
+                            source={item.Img}
+                        />
+                    </View>
+                    <View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
+                            <Text>Name:</Text>
+                            <Text>{item.Name}</Text>
                         </View>
-                    )}
-                />
-                <TouchableOpacity >
-                    <Text style={styles.btn}>Pay</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
+                            <Text>Price:</Text>
+                            <Text>{item.Price}</Text>
+                        </View>
+                    </View>
+                </View>
+
+
+                <TouchableOpacity onPress={() => addToCartAndNavigate(item)}>
+                    <Text style={styles.btn}>Add To Cart</Text>
                 </TouchableOpacity>
             </View>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         flex: 1,
         backgroundColor: '#fff',
-    },
-    buttonContainer: {
     },
     cont: {
         elevation: 3,
@@ -76,7 +97,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     btn: {
-        // WADKRx3Q
         color: '#153E5C',
         backgroundColor: '#FDBFC3',
         borderWidth: 1,
@@ -87,13 +107,12 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         borderRadius: 20,
     },
-    hhh: {
-        justifyContent: 'space-between'
-    },
     productImage: {
         margin: 5,
         width: 350,
         height: 400,
     },
 });
+
+
 export default Details;

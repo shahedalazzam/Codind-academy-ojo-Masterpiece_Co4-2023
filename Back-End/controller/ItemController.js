@@ -2,7 +2,7 @@ const { Order, Item } = require("../models/ItemsModels");
 const UserModel = require("../models/UserModels");
 
 exports.CreatItem = async (req, res) => {
-    const { Name, Price, Color, Img, Brand, Size } = req.body
+    const { Name, Price, Color, Img, Brand, Size, Category } = req.body
     try {
 
         const ItemExist = await Item.findOne({ Name, Brand }).catch((err) => {
@@ -19,7 +19,8 @@ exports.CreatItem = async (req, res) => {
                 Color,
                 Img,
                 Brand,
-                Size
+                Size,
+                Category
             })
 
             res.status(201).json({
@@ -30,7 +31,8 @@ exports.CreatItem = async (req, res) => {
                     Color: ItemCreate.Color,
                     Img: ItemCreate.Img,
                     Brand: ItemCreate.Brand,
-                    Size: ItemCreate.Size
+                    Size: ItemCreate.Size,
+                    Category: ItemCreate.Category
                 }
             })
         }

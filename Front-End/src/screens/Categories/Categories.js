@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-
+import axios from 'axios';
 
 
 const products = [
@@ -14,26 +14,49 @@ const products = [
     { id: 8, Price: '20$', name: 'Make Up', image: require("../../screens/Home/mackup.png") },
 ];
 
-const Categories = ({ navigation }) => {
+const Categories = ({ navigation,route }) => {
+    const {category}=route.params
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        const fetchItemData = async () => {
+          try {
+            const response = await axios.get(
+              'https://dream-wedding.onrender.com/admin/item'
+            );
+      
+            if (response && response.data) {
+              // Assuming the API returns an array of items, you can filter them based on category here
+              const filteredItems = response.data.data.Items.filter(
+                (item) => item.category === category
+              );
+      
+              setItems(filteredItems);
+            }
+          } catch (error) {
+            console.error('Error fetching item data:', error);
+          }
+        };
+      
+        fetchItemData();
+      }, [category]);
     return (
         <View style={styles.container}>
 
             <FlatList
                 numColumns={2}
-                data={products}
-                keyExtractor={(item) => item.id.toString()}
+                data={items}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={styles.buttonContainer}
-                        onPress={() => navigation.navigate("Details")}
+                        onPress={() => navigation.navigate("Details",{itemId:item._id})}
                     >
                         <View style={styles.cont}>
                             <Image
                                 resizeMode="stretch"
                                 style={styles.productImage}
-                                source={item.image}
+                                source={products.image}
                             />
-                            <Text style={styles.productName}>{item.name}</Text>
+                            <Text style={styles.productName}>{item.Name}</Text>
                             <Text style={styles.productName}>{item.Price}</Text>
                         </View></TouchableOpacity>
                 )}

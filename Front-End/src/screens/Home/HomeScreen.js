@@ -87,7 +87,7 @@ const HomeScreen = ({ navigation }) => {
                      renderItem={({ item }) => (
                         <TouchableOpacity
                            style={styles.buttonContainer}
-                           onPress={() => navigation.navigate("Categories")}>
+                           onPress={() => navigation.navigate("Categories",{category:item.name})}>
                            <View style={styles.cont}>
                               <Image
                                  resizeMode="stretch"
