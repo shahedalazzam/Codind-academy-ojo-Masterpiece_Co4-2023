@@ -117,7 +117,7 @@ const ItemsTable = (props) => {
                                                             <td>{item._id}</td>
                                                             <td contentEditable={true} onBlur={(e) => handleItemNameEdit(item._id, e.target.innerText)} >{item.Name}</td>
                                                             <td contentEditable={true} onBlur={(e) => handleItemPriceEdit(item._id, e.target.innerText)} >{item.Price}</td>
-                                                            <td contentEditable={true} onBlur={(e) => handleItemColorEdit(item._id, e.target.innerText)} >{item.Color}</td>
+                                                            <td style={{justifyContent:'center',display:'flex'}} contentEditable={true} onBlur={(e) => handleItemColorEdit(item._id, e.target.innerText)} ><div style={{ backgroundColor: item.Color, width: '90px', height: '40px' }}></div></td>
                                                             <td contentEditable={true} onBlur={(e) => handleItemBrandEdit(item._id, e.target.innerText)} >{item.Brand}</td>
                                                             <td contentEditable={true} onBlur={(e) => handleItemSizeEdit(item._id, e.target.innerText)} >{item.Size}</td>
                                                             <td>

@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { useAppContext } from '../../context/AppContext';
 
 const products = [
     { id: 1, Price: '30$', name: 'Ceremony', image: require("./img/dress1.png") },
 ];
 
 function Details({ navigation, route }) {
+    const {updateMergedData} = useAppContext();
     const { itemId } = route.params
     const [cartItems, setCartItems] = useState([]);
 
     const addToCartAndNavigate = (item) => {
-        setCartItems([...cartItems, item]);
-        navigation.navigate('Cart', { cartItems: [...cartItems, item] });
+        updateMergedData(item)
+        // setCartItems([...cartItems, item]);
+        // navigation.navigate('Cart', { cartItems: [...cartItems, item] });
+        navigation.goBack();
+
     };
     const [item, setItems] = useState("");
     useEffect(() => {
@@ -41,45 +46,49 @@ function Details({ navigation, route }) {
     return (
         <View style={styles.container}>
             <View style={styles.flat}>
-
-                {/* <FlatList */}
-                {/* // numColumns={1}
-                    // data={items.filter(items.id)} */}
-                {/* renderItem={({ item }) => ( */}
-                <View style={styles.flat}>
-                    <View style={styles.cont}>
-                        <Image
-                            resizeMode="stretch"
-                            style={styles.productImage}
-                            source={item.Img}
-                        />
+                <View style={styles.cont}>
+                    {/* <Image
+                        resizeMode="stretch"
+                        style={styles.productImage}
+                        source={item.Img}
+                    /> */}
+                </View>
+                <View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
+                        <Text>Name:</Text>
+                        <Text>{item.Name}</Text>
                     </View>
-                    <View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
-                            <Text>Name:</Text>
-                            <Text>{item.Name}</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
-                            <Text>Price:</Text>
-                            <Text>{item.Price}</Text>
-                        </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
+                        <Text>Price:</Text>
+                        <Text>{item.Price}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
+                        <Text>Color:</Text>
+                        <Text style={{ backgroundColor: item.Color, width: 60, height: 25 }}></Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
+                        <Text>Brand:</Text>
+                        <Text>{item.Brand}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 20, marginLeft: 20 }}>
+                        <Text>Size:</Text>
+                        <Text>{item.Size}</Text>
                     </View>
                 </View>
-
-
-                <TouchableOpacity onPress={() => addToCartAndNavigate(item)}>
-                    <Text style={styles.btn}>Add To Cart</Text>
-                </TouchableOpacity>
             </View>
+            <TouchableOpacity onPress={() => addToCartAndNavigate(item)} style={styles.goCart}>
+                <Text style={styles.btn}>Add To Cart</Text>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
         flex: 1,
         backgroundColor: '#fff',
+        padding:10,
+        justifyContent:'space-between'
     },
     cont: {
         elevation: 3,
@@ -112,6 +121,9 @@ const styles = StyleSheet.create({
         width: 350,
         height: 400,
     },
+    goCart: {
+        justifySelf: 'flex-end'
+    }
 });
 
 

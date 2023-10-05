@@ -9,11 +9,11 @@ const SideNav = () => {
     return (
         <>
             <ul style={{ backgroundColor: "#FDBFC3" }} className="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
-                <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                     <div className="sidebar-brand-icon rotate-n-15">
-                        <i className="fas fa-laugh-wink"></i>
+                        <i className="fas fa-ring"></i>
                     </div>
-                    <div className="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                    <div className="sidebar-brand-text mx-3">WD Admin</div>
                 </a>
                 <li className="nav-item">
                     <Link className="nav-link" to="/dashboard">
@@ -39,11 +39,6 @@ const SideNav = () => {
                     <Link className="nav-link" to="/dashboard/additem">
                         <i className="fas fa-fw fa-tachometer-alt"></i>
                         <span>Add Items</span></Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/dashboard/addorder">
-                        <i className="fas fa-fw fa-tachometer-alt"></i>
-                        <span>Add Orders</span></Link>
                 </li>
 
 

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { useAppContext } from '../../context/AppContext';
 
 
 
 function SignIn({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setUserName } = useAppContext();
+
 
   const handleSubmit = async () => {
     const values = {
@@ -15,6 +18,8 @@ function SignIn({ navigation }) {
     }
     await axios.post("https://dream-wedding.onrender.com/user/sign-in", values).then((response) => {
       console.log(response.data)
+      setUserName({name:response.data.data.FullName,
+      userId:response.data.data._id})
       navigation.navigate('HomeScreen')
     })
       .catch((erorr) => {

@@ -8,10 +8,13 @@ import HomeScreen from './src/screens/Home/HomeScreen';
 import Cart from './src/screens/Cart/Cart';
 import Categories from './src/screens/Categories/Categories';
 import Details from './src/screens/Details/Details';
+import { AppProvider } from './src/context/AppContext';
+
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
+    <AppProvider>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShadowVisible: false, headerShown: false }} />
@@ -23,5 +26,6 @@ export default function App() {
         <Stack.Screen name="Details" component={Details} options={{ headerShadowVisible: false, headerShown: true }} />
       </Stack.Navigator>
     </NavigationContainer>
+    </AppProvider>
   );
 }

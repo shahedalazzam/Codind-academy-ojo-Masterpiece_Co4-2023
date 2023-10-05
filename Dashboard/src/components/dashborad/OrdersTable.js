@@ -1,96 +1,72 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../formStyle.css';
-import DeleteBtn from './DeleteBtn';
+import axios from 'axios';
+import OrderDetailsModal from './OrderDetailsModal';
 
-const OrdersTable = (props) => {
-    const role = localStorage.getItem('role');
-    const token = sessionStorage.getItem('token');
-
-    const [orders, setOrders] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+const OrdersTable = () => {
+    const [ordersData, setOrdersData] = useState({ Orders: [], users: [], OrderItems: [] });
+    const [selectedOrder, setSelectedOrder] = useState(null); // To store the selected order details
 
     useEffect(() => {
-        const fetchOrderData = async () => {
-            try {
-                const requestData = {
-                    param1: 'value1',
-                    param2: 'value2'
-                };
-
-                const response = await axios.get('https://dream-wedding.onrender.com/user/order', requestData);
-
-                if (response && response.data && response.data.data && response.data.data.Orders) {
-                    setOrders(response.data.data.Orders);
-                } else {
-                    console.error('Invalid response data:', response.data);
-                }
-            } catch (error) {
-                console.error('Error fetching order data:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        
-        fetchOrderData();
+        axios.get('https://dream-wedding.onrender.com/user/order')
+            .then((response) => {
+                setOrdersData(response.data.data);
+                console.log(response.data.data)
+                console.log(ordersData)
+            })
+            .catch((error) => {
+                console.error('Error fetching orders:', error);
+            });
     }, []);
 
-    const handleOrderDelete = async (deletedOrderId) => {
-        try {
-            await axios.delete(`https://dream-wedding.onrender.com/user/order/${deletedOrderId}`);
-            
-            setOrders((prevOrders) => prevOrders.filter((order) => order._id !== deletedOrderId));
-        } catch (error) {
-            console.error('Error deleting order:', error);
-        }
+    // Define the fetchUserOrders function
+    const fetchUserOrders = (userId, orderId) => {
+        // Make an API request to fetch order details based on userId and orderId
+        axios.get(`https://dream-wedding.onrender.com/user/order`)
+            .then((response) => {
+                // Update the selectedOrder state with the fetched order details
+                setSelectedOrder(response.data.data.OrderItems);
+                console.log(response.data.data.OrderItems)
+            })
+            .catch((error) => {
+                console.error('Error fetching order details:', error);
+            });
     };
 
-    let navigate = useNavigate();
     return (
-        <>
-            <div id="wrapper" style={{ width: '100%' }}>
-                <div id="content-wrapper" className="d-flex flex-column">
-                    <div id="content">
-                        <div className="container-fluid">
-                            <h1 style={{ margin: '2rem 0 2rem 0' }} className="h3 text-white">
-                                Tables
-                            </h1>
-                            <div className="card shadow mb-4">
-                                <div className="card-body">
-                                    <div className="table-responsive">
-                                        <table className="table table-bordered" id="dataTable" width="100%" cellSpacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Orders</th>
-                                                    <th>Users</th>
-                                                    <th>OrderItems</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {orders.map((order, index) => {
-                                                    return (
-                                                        <tr key={index}>
-                                                            <td>{order._id}</td>
-                                                            <td>{order.user}</td>
-                                                            <td>{order.totalPrice}</td>
-                                                            <td>
-                                                                <DeleteBtn id={order._id} onDelete={handleOrderDelete} />
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+        <div className="container-fluid" style={{ height: "53rem", overflowY: "auto" }}>
+            <div className="container">
+                {ordersData.users.map((user, userIndex) => (
+                    <div key={user._id} className="card mt-4 border-0">
+                        <div style={{ backgroundColor: "#244459" }} className="card-header text-white">
+                            <h2>{user.FullName}'s Orders</h2>
+                        </div>
+                        <div className="card-body">
+                            <ul className="list-group">
+                                {ordersData.Orders.map((order, orderIndex) => (
+                                    <li
+                                        style={{ cursor: "pointer" }}
+                                        key={order._id}
+                                        className="list-group-item"
+                                        onClick={() => fetchUserOrders(user._id, order._id)}
+                                    >
+                                        Order: {order._id}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
-                </div>
+                ))}
+
+              {/* Display selected order details */}
+              {selectedOrder && (
+                    <OrderDetailsModal
+                        isOpen={true} // You can control the modal open/close state here
+                        closeModal={() => setSelectedOrder(null)} // Close the modal when needed
+                        orders={selectedOrder} // Pass the selectedOrder as a prop
+                    />
+                )}
             </div>
-        </>
+        </div>
     );
 };
 

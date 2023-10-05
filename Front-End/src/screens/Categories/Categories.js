@@ -27,13 +27,14 @@ const Categories = ({ navigation,route }) => {
             if (response && response.data) {
               // Assuming the API returns an array of items, you can filter them based on category here
               const filteredItems = response.data.data.Items.filter(
-                (item) => item.category === category
+                (item) => item.Category === category
               );
       
               setItems(filteredItems);
             }
           } catch (error) {
             console.error('Error fetching item data:', error);
+    
           }
         };
       

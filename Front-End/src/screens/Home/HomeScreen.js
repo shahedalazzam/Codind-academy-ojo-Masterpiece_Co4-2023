@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Dimensions, Image, StatusBar, TextInput, TouchableOpacity, FlatList } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useAppContext } from "../../context/AppContext";
 
 const images = [
 
@@ -12,7 +13,7 @@ const images = [
 
 const products = [
    { id: 1, name: 'Cermony', image: require("../../screens/Home/cermony.png") },
-   { id: 2, name: 'Attires & Accessories', image: require("../../screens/Home/attires.png") },
+   { id: 2, name: 'Dress', image: require("../../screens/Home/attires.png") },
    { id: 3, name: 'Invitations', image: require("../../screens/Home/invitation.png") },
    { id: 4, name: 'Make Up', image: require("../../screens/Home/mackup.png") },
 ];
@@ -20,7 +21,9 @@ const products = [
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation,route }) => {
+   const { name } = useAppContext();
+
    const [imgActive, setImgActive] = useState(0);
    const handleChange = (nativeEvent) => {
       const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
@@ -34,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView style={styles.container}>
          <SafeAreaView >
             <View style={styles.wrap}>
-               <Text style={styles.text1}>Hi Shahed</Text>
+               <Text style={styles.text1}>Hi {name.name.split(' ',1)} </Text>
                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                   <Text style={styles.text2}>Inspiration For Your Wedding</Text>
 
@@ -138,24 +141,24 @@ const HomeScreen = ({ navigation }) => {
                   <View style={styles.bestSellersContainer}>
                      <Text style={styles.CategoriesText}>Trending</Text>
                      <FlatList
-                        data={products}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                           <TouchableOpacity
-                              style={styles.buttonContainer}
-                              onPress={() => navigation.navigate("Categories")}
-                           >
-                              <View style={styles.cont}>
-                                 <Image
-                                    resizeMode="stretch"
-                                    style={styles.productImage}
-                                    source={item.image}
-                                 />
-                              </View>
-                           </TouchableOpacity>
-                        )}
-                        horizontal
-                        showsHorizontalScrollIndicator={false} />
+                     data={products}
+                     keyExtractor={(item) => item.id.toString()}
+                     renderItem={({ item }) => (
+                        <TouchableOpacity
+                           style={styles.buttonContainer}
+                           onPress={() => navigation.navigate("Categories",{category:item.name})}>
+                           <View style={styles.cont}>
+                              <Image
+                                 resizeMode="stretch"
+                                 style={styles.productImage}
+                                 source={item.image}
+                              />
+                           </View>
+                        </TouchableOpacity>
+                     )}
+                     horizontal
+                     showsHorizontalScrollIndicator={false}
+                  />
                   </View>
                </View>
             </View>
